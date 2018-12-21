@@ -125,7 +125,7 @@ on_search_keystroke(GtkWidget *widget, gpointer data)
     {
         for (uint i = 0; i < menu->items.size(); i++)
         {
-            if (!strncmp(menu->items[i]->name, text, strlen(text)))
+            if (!strncasecmp(menu->items[i]->name, text, strlen(text)))
                 menu->flowbox.add(*menu->items[i]->vbox);
         }
     }
