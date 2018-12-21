@@ -63,7 +63,6 @@ void WayfireMenu::load_menu_item(std::string file)
         button_box->add(*image);
         button_box->add(*label);
         button->add(*button_box);
-        button->set_size_request(100, 0);
         button->get_style_context()->add_class("flat");
         g_signal_connect(button->gobj(), "clicked", G_CALLBACK(on_item_click), exec);
         flowbox.add(*button);
