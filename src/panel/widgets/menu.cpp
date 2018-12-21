@@ -28,10 +28,16 @@ void WayfireMenu::load_menu_item(std::string file)
 
     if (name && icon && exec)
     {
-        //printf("File: %s\n", file.c_str());
-        //printf("Name: %s\n", name);
-        //printf("Icon: %s\n", icon);
-        //printf("Exec: %s\n", exec);
+        for (uint i = 0; i < items.size(); i++)
+        {
+            if (!strcmp(name, items[i]->name) && !strcmp(exec, items[i]->exec))
+            {
+                free(exec);
+                printf("Skipping menu item %s\n", name);
+                goto skip;
+            }
+        }
+
         Gtk::Button *button = new Gtk::Button();
         Gtk::Image *image = new Gtk::Image();
         Gtk::Label *label = new Gtk::Label();
@@ -68,7 +74,7 @@ void WayfireMenu::load_menu_item(std::string file)
         printf("Skipping menu item: %s\n", name);
         free(exec);
     }
-
+skip:
     free(name);
     free(icon);
 }
