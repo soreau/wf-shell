@@ -140,6 +140,8 @@ on_search_keystroke(GtkWidget *widget, gpointer data)
             menu->flowbox.add(*menu->items[i]->button);
     }
 
+    menu->flowbox.show_all();
+
     return false;
 }
 
