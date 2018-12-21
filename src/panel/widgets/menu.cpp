@@ -38,16 +38,16 @@ void WayfireMenu::load_menu_item(std::string file)
             }
         }
 
+        Gtk::VBox *button_box = new Gtk::VBox();
         Gtk::Button *button = new Gtk::Button();
         Gtk::Image *image = new Gtk::Image();
         Gtk::Label *label = new Gtk::Label();
-        Gtk::VBox *vbox = new Gtk::VBox();
         MenuItem *item = new MenuItem();
 
+        item->button_box = button_box;
         item->button = button;
         item->image = image;
         item->label = label;
-        item->vbox = vbox;
         item->name = strdup(name);
         item->exec = exec;
         items.push_back(item);
@@ -60,14 +60,13 @@ void WayfireMenu::load_menu_item(std::string file)
         if (strlen(name) > 12)
             strcpy(&name[10], "..");
         label->set_text(name);
-        button->add(*image);
+        button_box->add(*image);
+        button_box->add(*label);
+        button->add(*button_box);
         button->set_size_request(100, 0);
         button->get_style_context()->add_class("flat");
         g_signal_connect(button->gobj(), "clicked", G_CALLBACK(on_item_click), exec);
-        vbox->pack_start(*button, Gtk::PACK_SHRINK, 0);
-        vbox->pack_start(*label, Gtk::PACK_SHRINK, 0);
-        flowbox.add(*vbox);
-        vbox->show_all();
+        flowbox.add(*button);
     }
     else
     {
@@ -132,16 +131,14 @@ on_search_keystroke(GtkWidget *widget, gpointer data)
         for (uint i = 0; i < menu->items.size(); i++)
         {
             if (!strncasecmp(menu->items[i]->name, text, strlen(text)))
-                menu->flowbox.add(*menu->items[i]->vbox);
+                menu->flowbox.add(*menu->items[i]->button);
         }
     }
     else
     {
         for (uint i = 0; i < menu->items.size(); i++)
-            menu->flowbox.add(*menu->items[i]->vbox);
+            menu->flowbox.add(*menu->items[i]->button);
     }
-
-    menu->flowbox.show_all();
 
     return false;
 }
@@ -178,22 +175,17 @@ void WayfireMenu::init(Gtk::HBox *container, wayfire_config *config)
 
     container->pack_start(hbox, Gtk::PACK_SHRINK, 0);
     hbox.pack_start(menu_button, Gtk::PACK_SHRINK, 0);
-    hbox.show_all();
 
     load_menu_items("~/.local/share/applications");
     load_menu_items("/usr/share/applications");
 
-    gtk_widget_set_valign(GTK_WIDGET(flowbox.gobj()), GTK_ALIGN_START);
+    flowbox.set_valign(Gtk::ALIGN_START);
     flowbox.set_homogeneous(true);
-    flowbox.show_all();
 
     flowbox_container.add(flowbox);
     flowbox_container.add(bottom_pad);
-    flowbox_container.show_all();
-    bottom_pad.show_all();
 
     scrolled_window.add(flowbox_container);
-    scrolled_window.show_all();
     scrolled_window.set_min_content_width(500);
     scrolled_window.set_min_content_height(500);
 

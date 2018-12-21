@@ -12,10 +12,10 @@
 class MenuItem
 {
     public:
+    Gtk::VBox *button_box;
     Gtk::Button *button;
     Gtk::Image *image;
     Gtk::Label *label;
-    Gtk::VBox *vbox;
     gchar *name, *exec;
 };
 
