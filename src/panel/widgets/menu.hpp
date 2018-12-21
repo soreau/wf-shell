@@ -24,6 +24,8 @@ class WayfireMenu : public WayfireWidget
     Gtk::Popover popover;
     Gtk::MenuButton menu_button;
     Gtk::Image main_image;
+    Gtk::VBox bottom_pad;
+    Gtk::Box flowbox_container;
     Gtk::VBox box;
     Gtk::HBox hbox;
     Gtk::Entry search_box;

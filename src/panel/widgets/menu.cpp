@@ -55,6 +55,7 @@ void WayfireMenu::load_menu_item(std::string file)
             strcpy(&name[10], "..");
         label->set_text(name);
         button->add(*image);
+        button->set_size_request(100, 0);
         button->get_style_context()->add_class("flat");
         g_signal_connect(button->gobj(), "clicked", G_CALLBACK(on_item_click), exec);
         vbox->pack_start(*button, Gtk::PACK_SHRINK, 0);
@@ -163,7 +164,7 @@ void WayfireMenu::init(Gtk::HBox *container, wayfire_config *config)
     popover.set_constrain_to(Gtk::POPOVER_CONSTRAINT_NONE);
     g_signal_connect(popover.gobj(), "show", G_CALLBACK(on_popover_shown), &flowbox);
 
-    auto ptr_pbuff = Gdk::Pixbuf::create_from_file("/path/to/wayfire.png", base_size * main_image.get_scale_factor(), base_size * main_image.get_scale_factor());
+    auto ptr_pbuff = Gdk::Pixbuf::create_from_file(ICONDIR "/wayfire.png", base_size * main_image.get_scale_factor(), base_size * main_image.get_scale_factor());
     if (!ptr_pbuff)
         return;
 
@@ -176,10 +177,16 @@ void WayfireMenu::init(Gtk::HBox *container, wayfire_config *config)
     load_menu_items("~/.local/share/applications");
     load_menu_items("/usr/share/applications");
 
+    gtk_widget_set_valign(GTK_WIDGET(flowbox.gobj()), GTK_ALIGN_START);
     flowbox.set_homogeneous(true);
     flowbox.show_all();
 
-    scrolled_window.add(flowbox);
+    flowbox_container.add(flowbox);
+    flowbox_container.add(bottom_pad);
+    flowbox_container.show_all();
+    bottom_pad.show_all();
+
+    scrolled_window.add(flowbox_container);
     scrolled_window.show_all();
     scrolled_window.set_min_content_width(500);
     scrolled_window.set_min_content_height(500);
