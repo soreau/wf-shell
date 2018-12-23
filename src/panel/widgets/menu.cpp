@@ -57,8 +57,9 @@ void WayfireMenu::load_menu_item(std::string file)
             GTK_ICON_SIZE_LARGE_TOOLBAR);
         image->set_pixel_size(48);
         button->set_tooltip_text(name);
-        if (strlen(name) > 12)
-            strcpy(&name[10], "..");
+        label->set_max_width_chars(10);
+        label->set_ellipsize(Pango::ELLIPSIZE_END);
+        label->set_halign(Gtk::ALIGN_CENTER);
         label->set_text(name);
         button_box->add(*image);
         button_box->add(*label);
