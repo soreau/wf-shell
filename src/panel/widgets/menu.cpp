@@ -174,7 +174,7 @@ void WayfireMenu::init(Gtk::HBox *container, wayfire_config *config)
     menu_button.set_direction(Gtk::ARROW_DOWN);
     menu_button.set_popover(popover);
     menu_button.get_style_context()->add_class("flat");
-    menu_button.set_size_request(48, 0);
+    menu_button.set_size_request(base_size, 0);
 
     popover.set_constrain_to(Gtk::POPOVER_CONSTRAINT_NONE);
     popover.signal_show().connect_notify(
