@@ -85,15 +85,15 @@ static bool fuzzy_match(Glib::ustring text, Glib::ustring pattern)
 
 bool WfMenuMenuItem::matches(Glib::ustring pattern)
 {
-    Glib::ustring id = m_app_info->get_id();
     Glib::ustring name = m_app_info->get_name();
-    Glib::ustring descr = m_app_info->get_description();
+    Glib::ustring long_name = m_app_info->get_display_name();
+    Glib::ustring progr = m_app_info->get_executable();
 
     pattern = pattern.lowercase();
 
-    return fuzzy_match(id.lowercase(), pattern)
+    return fuzzy_match(progr.lowercase(), pattern)
         || fuzzy_match(name.lowercase(), pattern)
-        || fuzzy_match(descr.lowercase(), pattern);
+        || fuzzy_match(long_name.lowercase(), pattern);
 }
 
 bool WfMenuMenuItem::operator < (const WfMenuMenuItem& other)
