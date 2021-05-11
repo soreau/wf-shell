@@ -83,7 +83,18 @@ void WayfireShellApp::on_activate()
     wl_registry_add_listener(registry, &registry_listener, this);
     wl_display_roundtrip(wl_display);
 
-    std::vector<std::string> xmldirs(1, METADATA_DIR);
+    std::vector<std::string> xmldirs;
+    if (char *plugin_xml_path = getenv("WAYFIRE_PLUGIN_XML_PATH"))
+    {
+        std::stringstream ss(plugin_xml_path);
+        std::string entry;
+        while (std::getline(ss, entry, ':'))
+        {
+            xmldirs.push_back(entry + "/wf-shell");
+        }
+    }
+
+    xmldirs.push_back(METADATA_DIR);
 
     // setup config
     this->config = wf::config::build_configuration(
