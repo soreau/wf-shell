@@ -23,6 +23,7 @@
 #include "widgets/network.hpp"
 #include "widgets/spacing.hpp"
 #include "widgets/separator.hpp"
+#include "widgets/popover-pager.hpp"
 #ifdef HAVE_PULSE
     #include "widgets/volume.hpp"
 #endif
@@ -206,6 +207,20 @@ class WayfirePanel::impl
             } else
             {
                 std::cerr << "Wayfire IPC not connected, which is required to load language widget." <<
+                    std::endl;
+                return nullptr;
+            }
+        }
+
+        if (name == "popover-pager")
+        {
+            if (WayfireIPC::get_instance()->connected)
+            {
+                return Widget(new WayfirePopoverPager(output));
+            } else
+            {
+                std::cerr <<
+                    "Wayfire IPC not connected, which is required to load popover-pager widget." <<
                     std::endl;
                 return nullptr;
             }
